@@ -77,6 +77,14 @@ function initCanvas (brain, canvas) {
   brain.canvasRead.width = 1
   brain.canvasRead.height = 1
 
+  /*
+  // Display the canvasRead for testing purposes
+  document.body.appendChild(brain.canvasRead);
+  brain.canvasRead.style.height = brain.canvasRead.style.width = '20px';
+  brain.canvasRead.style.position = 'fixed';
+  brain.canvasRead.style.top = brain.canvasRead.style.left = '0px';
+  */
+
   // A master sagital canvas for the merge of background and overlay
   brain.planes = {}
   brain.planes.canvasMaster = document.createElement('canvas')
@@ -201,31 +209,19 @@ function brainsprite(params) {
 
   let updateValue = function () {
     // Update voxel value
-    let pos = {}; let test1 = []; let test2 = []
+    let pos = {}
     if (brain.overlay && !brain.nanValue) {
       try {
         pos.XW = Math.round((brain.numSlice.X) % brain.nbCol)
         pos.XH = Math.round((brain.numSlice.X - pos.XW) / brain.nbCol)
-        brain.contextRead.fillStyle = '#FFFFFF'
-        brain.contextRead.fillRect(0, 0, 1, 1)
+        brain.contextRead.clearRect(0, 0, 1, 1)
         brain.contextRead.drawImage(
           brain.overlay.sprite,
           pos.XW * brain.nbSlice.Y + brain.numSlice.Y,
           pos.XH * brain.nbSlice.Z + brain.nbSlice.Z - brain.numSlice.Z - 1,
           1, 1, 0, 0, 1, 1)
-        let rgb = {}
-        rgb = brain.contextRead.getImageData(0, 0, 1, 1).data
-        test1 = ((rgb[0] === 255) && (rgb[1] === 255) && (rgb[2] === 255))
-        brain.contextRead.fillStyle = '#000000'
-        brain.contextRead.fillRect(0, 0, 1, 1)
-        brain.contextRead.drawImage(
-          brain.overlay.sprite,
-          pos.XW * brain.nbSlice.Y + brain.numSlice.Y,
-          pos.XH * brain.nbSlice.Z + brain.nbSlice.Z - brain.numSlice.Z - 1,
-          1, 1, 0, 0, 1, 1)
-        rgb = brain.contextRead.getImageData(0, 0, 1, 1).data
-        test2 = ((rgb[0] === 0) && (rgb[1] === 0) && (rgb[2] === 0))
-        if (test1 && test2) {
+        let rgb = brain.contextRead.getImageData(0, 0, 1, 1).data
+        if (rgb[3] === 0) {
           brain.voxelValue = NaN
         } else {
           brain.voxelValue = getValue(rgb, brain.colorMap)
