@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+<body>
+  <div id="div_viewer" width=100%>
+    <!-- this is the canvas that will feature the brain slices -->
+    <canvas id="3Dviewer"></canvas>
+    <!-- load a hidden version of the sprite image that includes all (sagital) brain slices -->
+    <img id="spriteImg" class="" src="./brain-sprites.jpg" alt="background" />
+    <!-- the colormap -->
+    <img id="colorMap" class="" src="data:image/jpg;base64, iVBORw0KGgoAAAANSUhEUgAAAQAAAAABCAYAAAAxWXB3AAAABHNCSVQICAgIfAhkiAAAAFFJREFU
+OI1j/P////8fDAwM+PBPGsv/+8PAwPAbin8hsanBp4WZGHb8p6Nl1OXzMnxmYGVggGM2JPZg5zOy
+0tlyapvJwsTAwMCBB7PTWJ6DAQBRAoX+RFTJXQAAAABJRU5ErkJggg==
+" alt="colormap">
+    <!-- another sprite image, with an overlay-->
+    <img id="overlayImg" class="" src="./brain-overlay.png" alt="overlay">
+  </div>
+
+  <!--<script type="text/javascript" src="../assets/jquery-1.9.1/jquery.min.js"> </script>-->
+  <script type="text/javascript" src="../brainsprite.js"></script>
+
+  <script>
+    window.addEventListener('load', function () {
+      console.log('load');
+      // Create brain slices
+
+      var brain = brainsprite(
+        {
+          "flagValue": true,
+          "colorBackground": "#000000",
+          "overlay": {"nbSlice": {"Z": 91, "X": 91, "Y": 109}, "sprite": "overlayImg", "opacity": 0.8},
+          "colorFont": "#FFFFFF",
+          "nbSlice": {"Z": 91, "X": 91, "Y": 109},
+          "canvas": "3Dviewer",
+          "colorMap": {"img": "colorMap", "max": 0.8921064734458923, "min": -0.8921064734458923 },
+          "crosshair": true,
+          "sprite": "spriteImg"
+        }
+      );
+    });
+  </script>
+</body>
+</html>
